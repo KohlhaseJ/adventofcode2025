@@ -1,3 +1,3 @@
 # adventofcode2025 🎄
 
-Solving [Advent of Code 2025](https://adventofcode.com/2025) puzzles brushing up on C++.
+Brush up on C++ solving some [Advent of Code 2025](https://adventofcode.com/2025) puzzles on the way.
