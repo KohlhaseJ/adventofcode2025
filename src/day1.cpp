@@ -5,6 +5,8 @@
 
 using namespace std;
 
+const unsigned int MAX_POINTER = 99;
+
 int main()
 {
     string filePath = "./resources/day1.txt";
@@ -13,11 +15,11 @@ int main()
         cerr << "Failed to open file: " << filePath << endl;
         return 1;
     }
-
-    int maxPointer = 99;
+    
     int currentPointer = 50;
-    int hitsOnZero = 0;
-    int directHitsOnZero = 0;
+    unsigned int hitsOnZero = 0;
+    unsigned int directHitsOnZero = 0;
+
     string line;
     while (getline(fileStream, line)) {
         string command = line.substr(0,1);
@@ -27,15 +29,15 @@ int main()
         currentPointer += value;
 
         while (currentPointer < 0) {
-            currentPointer += maxPointer + 1;
-            if (!wasAtZero && currentPointer != 0) {
+            currentPointer += MAX_POINTER + 1;
+            if (!wasAtZero) {
                 hitsOnZero++;
             }
             wasAtZero = false;
         }
 
-        while (currentPointer > maxPointer) {
-            currentPointer -= maxPointer + 1;
+        while (currentPointer > MAX_POINTER) {
+            currentPointer -= MAX_POINTER + 1;
             if (currentPointer != 0) {
                 hitsOnZero++;
             }
