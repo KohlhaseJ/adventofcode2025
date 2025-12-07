@@ -18,29 +18,45 @@ int main()
 
     string line;
     unsigned int splitCount = 0;
-    unsigned int xi = 0;
-    set<pair<int, int>> beams;
+    unsigned int rowIndex = 0;
+    set<pair<unsigned int, unsigned int>> beams;
+    map<unsigned int, unsigned long> pathCounts;
+
     while (getline(fileStream, line)) {
-        unsigned int yi = 0;
+        unsigned int columnIndex = 0;
+        map<unsigned int, unsigned long> newPathCounts;
         for (char& c : line) {
             if (c == startChar) {
-                beams.insert({xi + 1, yi});
-            } else if (c != splitChar && beams.find({xi, yi}) != beams.end()) {
-                beams.insert({xi + 1, yi});
-            } else if (c == splitChar && beams.find({xi, yi}) != beams.end()) {
-                if (yi > 0) {
-                    beams.insert({xi + 1, yi - 1});
+                beams.insert({rowIndex, columnIndex});
+                newPathCounts[columnIndex] = 1;
+            } else if (c != splitChar && beams.find({rowIndex - 1, columnIndex}) != beams.end()) {
+                beams.insert({rowIndex, columnIndex});
+                newPathCounts[columnIndex] += pathCounts[columnIndex];
+            } else if (c == splitChar && beams.find({rowIndex - 1, columnIndex}) != beams.end()) {
+                if (columnIndex > 0) {
+                    beams.insert({rowIndex, columnIndex - 1});
+                    newPathCounts[columnIndex - 1] += pathCounts[columnIndex];
                 }
-                if (yi <= line.size()) {
-                    beams.insert({xi + 1, yi + 1});
+                if (columnIndex <= line.size()) {
+                    beams.insert({rowIndex, columnIndex + 1});
+                    newPathCounts[columnIndex + 1] += pathCounts[columnIndex];
                 }
                 splitCount++;
             }
-            yi++;
+            columnIndex++;
         }
-        xi++;
+        pathCounts = newPathCounts;
+        rowIndex++;
     }
     fileStream.close();
-    
+
+    unsigned long totalPaths = 0;
+    for (const pair<unsigned int, unsigned long>& pair : pathCounts) {
+        totalPaths += pair.second;
+    }
+
     cout << "1) Number of splits: " << splitCount << endl;
+    cout << "2) Number of possible paths: " << totalPaths << endl;
+
+    return 0;
 }
