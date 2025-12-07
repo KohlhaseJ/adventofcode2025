@@ -5,13 +5,6 @@
 
 using namespace std;
 
-struct BinaryTreeNode {
-    BinaryTreeNode* left;
-    BinaryTreeNode* right;
-
-    BinaryTreeNode() : left(nullptr), right(nullptr) {}
-};
-
 int main()
 {
     const char startChar = 'S';
