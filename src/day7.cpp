@@ -24,7 +24,7 @@ int main()
         unsigned int yi = 0;
         for (char& c : line) {
             if (c == startChar) {
-                beams.insert({xi, yi});
+                beams.insert({xi + 1, yi});
             } else if (c != splitChar && beams.find({xi, yi}) != beams.end()) {
                 beams.insert({xi + 1, yi});
             } else if (c == splitChar && beams.find({xi, yi}) != beams.end()) {
@@ -41,6 +41,6 @@ int main()
         xi++;
     }
     fileStream.close();
-
+    
     cout << "1) Number of splits: " << splitCount << endl;
 }
